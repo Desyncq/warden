@@ -1,0 +1,19 @@
+# Binaries
+*.exe
+*.out
+*.bin
+*.dll
+*.so
+*.dylib
+
+
+# Go Build Artifacts
+/build/
+/bin/
+/dist/
+*.log
+
+
+# Testing cache
+*.coverprofile
+*.test
