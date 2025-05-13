@@ -23,12 +23,19 @@ func main() {
 
 func registerRoutes(app *fiber.App) {
 	// Serve Frontend 
-	app.Get("/*", static.New("./frontend/dist"))
+	app.Get("/*", static.New("./web"))
 	app.Get("/", func (c fiber.Ctx) error {
-		return c.SendFile("./frontend/dist/index.html")
+		return c.SendFile("./web/index.html")
 	})
 
 	docs := app.Group("/docs")
-
 	docs.Get("/", controllers.GetDocs)
+
+	// Admin Routes
+	admin := app.Group("/admin")
+	admin.Get("/signup", controllers.AdminSignup)
+	admin.Get("/login", controllers.AdminLogin)
+	admin.Get("/logout", controllers.AdminLogout)
+
+
 }

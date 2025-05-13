@@ -12,8 +12,9 @@
 /bin/
 /dist/
 *.log
-
+web
 
 # Testing cache
 *.coverprofile
 *.test
+
