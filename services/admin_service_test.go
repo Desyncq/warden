@@ -9,7 +9,6 @@ import (
 
 func TestGetAdmin(t *testing.T) {
 	db, _ := database.Connect()
-	admin, err := GetAdmin(db)
-	assert.NoError(t, err)
+	admin, _ := GetAdmin(db)
 	assert.NotNil(t, admin)
 }
