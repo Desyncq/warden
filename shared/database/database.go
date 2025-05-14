@@ -1,23 +1,34 @@
 package database
 
 import (
-	"log"
-
+	"github.com/Desyncq/warden/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"log"
+	"sync"
 )
 
+var (
+	dbInstance *gorm.DB
+	once       sync.Once
+)
 
 func Connect() (*gorm.DB, error) {
-	dsn := "host=localhost user=Desyncq password=Desyncq dbname=desyncqdb port=5432 sslmode=disable"
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
-		log.Fatal("Failed to connect to database: ", err)
-	}
+	var err error
 
-	log.Println("Connected to database")
+	once.Do(func() {
 
-	return db, nil
+		dsn := "host=localhost user=Desyncq password=Desyncq dbname=desyncqdb port=5432 sslmode=disable"
+		dbInstance, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+		if err != nil {
+			log.Fatal("Failed to connect to database: ", err)
+		} else {
+			log.Println("Connected to database")
+		}
+
+		// Create Tables
+		dbInstance.AutoMigrate(&models.Admin{})
+	})
+
+	return dbInstance, err
 }
-
-
