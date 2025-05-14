@@ -6,7 +6,7 @@ import (
 )
 
 
-func TestDBConnection(t *testing.T) {
+func Test01DBConnection(t *testing.T) {
 	db, _ := Connect()
 	psdb, err := db.DB()
 	assert.NoError(t, err)
