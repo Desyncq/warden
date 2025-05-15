@@ -27,7 +27,6 @@ func registerRoutes(app *fiber.App) {
 	})
 
 	docs := app.Group("/docs")
-
 	docs.Get("/", controllers.GetDocs)
 
 	// Admin Routes
