@@ -4,14 +4,23 @@ import (
 	"github.com/gofiber/fiber/v3"
 )
 
-func AdminSignup(c fiber.Ctx) error {
+
+type AdminController struct {}
+
+
+func (a *AdminController) AdminSignup(c fiber.Ctx) error {
+	return c.SendString("Admin Signup")
+}
+
+func (a *AdminController) AdminLogin(c fiber.Ctx) error {
 	return nil
 }
 
-func AdminLogin(c fiber.Ctx) error {
+func (a *AdminController) AdminLogout(c fiber.Ctx) error {
 	return nil
 }
 
-func AdminLogout(c fiber.Ctx) error {
-	return nil
+
+func NewAdminController() *AdminController {
+	return &AdminController{}
 }

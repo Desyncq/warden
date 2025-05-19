@@ -4,20 +4,32 @@ import (
 	"errors"
 	"gorm.io/gorm"
 	"github.com/Desyncq/warden/models"
-	"log"
 )
 
-func GetAdmin(db *gorm.DB) (models.Admin, error) {
-	var Admins []models.Admin
-	result := db.Find(&Admins)
-	if result.Error != nil {
-		log.Fatal("Failed to get admins: ", result.Error)
-	}
-
-	if len(Admins) == 0 {
-		return models.Admin{}, errors.New("no admins found")
-	}
-
-	return Admins[0], result.Error
+type AdminService struct {
+	db *gorm.DB
 }
 
+func (s *AdminService) AddNewAdmin(admin models.Admin) error {
+	result := s.db.Create(&admin)
+	return result.Error
+}
+
+func (s *AdminService) GetAdmin() (*models.Admin , error) {
+	var admin models.Admin
+	result := s.db.First(&admin)
+	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return nil, errors.New("admin not found")
+		}
+		return nil, result.Error
+	}
+
+	return &admin, nil
+}
+
+func NewAdminService(db *gorm.DB) *AdminService {
+	return &AdminService{
+		db: db,
+	}
+}
