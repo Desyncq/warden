@@ -18,3 +18,6 @@ web
 *.coverprofile
 *.test
 
+# env variables
+*.env
+
