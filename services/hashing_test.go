@@ -6,18 +6,21 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestHashPaswordAndCheckPasswordHash(t *testing.T) {
-	pass := "testpass"
+var (
+	pass = "testpass"
+	hashService = &HashService{}
+)
 
-	hash, err := HashPassword(pass)
-	if err != nil {
-		t.Fatalf("Couldn't hash password: %v", err)
-	}
-
-	val := CheckPasswordHash(pass, hash)
-	if val != true {
-		t.Error("Password is incorrect")
-	}
-
+func TestPasswordHashing(t *testing.T) {
+	hash, err := hashService.HashPassword(pass)
 	assert.NoError(t, err)
+	assert.NotEmpty(t, hash)
+	
+}
+
+func TestPasswordMatch(t *testing.T) {
+	hash, _ := hashService.HashPassword(pass)
+
+	match := hashService.CheckPasswordHash(pass, hash)
+	assert.True(t, match)
 }
