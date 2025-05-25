@@ -9,8 +9,9 @@ import (
 
 func TestGenerateAndValidateJWT(t *testing.T) {
 	user := "testuser"
+	jwtService := CreateJwtService()
 
-	token, err := GenerateJWT(user)
+	token, err := jwtService.GenerateJWTToken(user,  "Souvik")
 
 	if err != nil {
 		t.Fatalf("Failed to generate token: %v", err)
@@ -19,7 +20,7 @@ func TestGenerateAndValidateJWT(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotNil(t, token)
 
-	claims, err := ValidateJWT(token)
+	claims, err := jwtService.ValidateJWTToken(token)
 	if err != nil {
 		t.Fatalf("Token validation failed: %v", err)
 	}
@@ -36,7 +37,8 @@ func TestGenerateAndValidateJWT(t *testing.T) {
 }
 
 func TestInvalidJWT(t *testing.T) {
-	_, err := ValidateJWT("invalid.token.string")
+	jwtService := CreateJwtService()
+	_, err := jwtService.ValidateJWTToken("invalid.token.string")
 	if err == nil {
 		t.Error("Expected error for invalid token, got nil")
 	}
