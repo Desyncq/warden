@@ -6,6 +6,18 @@ import (
 	"github.com/Desyncq/warden/models"
 )
 
+/*
+Admin Service will use a json file to store the admin credentials, 
+
+*/
+
+
+type Admin struct {
+	Email string `json:"username"`
+	Password string `json:"password"`
+}
+
+
 type AdminService struct {
 	db *gorm.DB
 }

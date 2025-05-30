@@ -1,0 +1,84 @@
+openapi: '3.0.3'
+info:
+  title: Warden API
+  description: Backend API for the warden application, which is a IAM server. 
+  version: '1.0'
+servers:
+  - url: http://localhost:3000/api
+paths:
+  /admin/login:
+    post:
+      summary: Admin Login 
+      description: Authenticate Admin of the application
+      requestBody:
+        $ref: '#/components/requestBodies/AdminLoginSignupRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/AdminAuthSuccess'
+        '401':
+          description: Invalid Credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid username or password
+  /admin/signup:
+    post:
+      summary: Admin Signup
+      description: Signup Admin for the application
+      requestBody:
+        $ref: '#/components/requestBodies/AdminLoginSignupRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/AdminAuthSuccess'
+        '401':
+          description: Admin Already exists.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: admin already exists, please try to login instead. 
+
+components:
+  requestBodies:
+    AdminLoginSignupRequest:
+      description: Admin Login Credentials
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdminLoginSignupRequest'
+  responses:
+    AdminAuthSuccess:
+      description: Admin Successfully Authenticated
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+                description: JWT Token
+  
+  schemas:
+    AdminLoginSignupRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        username:
+          type: string
+          example: example@mail.com
+        password:
+          type: string
+          example: secret123
+        
+
+
